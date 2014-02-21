@@ -1,4 +1,3 @@
-py-deps
-=======
-
+zenoss-py-deps
+==============
 Builder for Zenoss Python dependencies
