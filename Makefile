@@ -1,6 +1,6 @@
 OUTPUT       := pydeps.tgz
 BUILDDIR     := /tmp/pydeps-build
-REQUIREMENTS := $(wildcard *.requirements.txt)
+REQUIREMENTS := requirements.in
 
 
 default: $(OUTPUT)
