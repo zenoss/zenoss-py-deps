@@ -6,7 +6,7 @@ REQUIREMENTS := requirements.txt
 build:
 	docker build -t zenoss/build-wheel .
 	docker run -rm -v $${PWD}:/mnt/build -w /mnt/build zenoss/build-wheel /bin/bash -c \
-		"make BUILDDIR=$(BUILDDIR) REQUIREMENTS=$(REQUIREMENTS) $(OUTPUT) && \
+		"make BUILD_NUMBER=$(BUILD_NUMBER) BUILDDIR=$(BUILDDIR) REQUIREMENTS=$(REQUIREMENTS) $(OUTPUT) && \
 		 chown -R $$(id -u):$$(id -g) $(OUTPUT)"
 
 $(OUTPUT): $(BUILDDIR)
