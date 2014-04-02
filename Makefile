@@ -1,12 +1,12 @@
-BUILD_NUMBER ?= 0
-OUTPUT       := pydeps.$(BUILD_NUMBER).tar.gz
+VERSION      ?= 5.0.0
+OUTPUT       := pydeps-$(VERSION).tar.gz
 BUILDDIR     := /tmp/pydeps-build
 REQUIREMENTS := requirements.txt
 
 build:
 	docker build -t zenoss/build-wheel .
 	docker run -rm -v $${PWD}:/mnt/build -w /mnt/build zenoss/build-wheel /bin/bash -c \
-		"make BUILD_NUMBER=$(BUILD_NUMBER) BUILDDIR=$(BUILDDIR) REQUIREMENTS=$(REQUIREMENTS) $(OUTPUT) && \
+		"make VERSION=$(VERSION) BUILDDIR=$(BUILDDIR) REQUIREMENTS=$(REQUIREMENTS) $(OUTPUT) && \
 		 chown -R $$(id -u):$$(id -g) $(OUTPUT)"
 
 $(OUTPUT): $(BUILDDIR)
