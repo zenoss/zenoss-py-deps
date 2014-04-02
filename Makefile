@@ -16,5 +16,5 @@ $(BUILDDIR):
 	@pip wheel --wheel-dir=$@ -r $(REQUIREMENTS)
 
 clean:
-	rm -f $(OUTPUT)
+	rm -f pydeps.*.tar.gz
 	rm -rf $(BUILDDIR)
