@@ -6,3 +6,8 @@ RUN pip install --upgrade pip wheel virtualenv
 
 # Dependencies to build the packages
 RUN yum -y install mysql-devel
+
+RUN groupadd -f -g %GID% build
+RUN useradd -d /home/build -m -s /bin/bash -u %UID% -g %GID% build 
+RUN echo "build ALL=(ALL:ALL) NOPASSWD:ALL" >> /etc/sudoers
+USER build

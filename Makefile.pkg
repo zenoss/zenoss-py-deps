@@ -1,0 +1,6 @@
+PYTHON   ?= $(shell which python)
+WHEELS   ?= $(PWD)/wheelhouse
+REQS     ?= $(PWD)/requirements.txt
+
+install:
+	@pip install --use-wheel --no-index --find-links=$(WHEELS) -r $(REQS)

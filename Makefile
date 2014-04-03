@@ -1,20 +1,42 @@
+NAME         ?= pydeps
 VERSION      ?= 5.0.0
-OUTPUT       := pydeps-$(VERSION).tar.gz
-BUILDDIR     := /tmp/pydeps-build
+PRODNAME     := $(NAME)-$(VERSION)
+DESTDIR      := dest
+OUTPUT       := $(DESTDIR)/$(PRODNAME).tar.gz
+TMPDIR       := /tmp
+WHEELDIR     := wheelhouse
+BUILDDIR     := $(TMPDIR)/$(NAME)-$(VERSION)
 REQUIREMENTS := requirements.txt
+PKGMAKEFILE  := Makefile.pkg
 
-build:
+build: Dockerfile
 	docker build -t zenoss/build-wheel .
-	docker run -rm -v $${PWD}:/mnt/build -w /mnt/build zenoss/build-wheel /bin/bash -c \
-		"make VERSION=$(VERSION) BUILDDIR=$(BUILDDIR) REQUIREMENTS=$(REQUIREMENTS) $(OUTPUT) && \
-		 chown -R $$(id -u):$$(id -g) $(OUTPUT)"
+	docker run --rm           \
+		-v $${PWD}:/mnt/build \
+		-w /mnt/build         \
+		-e NAME=$(NAME)       \
+		-e VERSION=$(VERSION) \
+		zenoss/build-wheel    \
+		make $(OUTPUT)
 
-$(OUTPUT): $(BUILDDIR)
-	tar czf $(@) $(<D)
+Dockerfile:
+	@sed -e "s/%UID%/$$(id -u)/g" -e "s/%GID%/$$(id -g)/g" < Dockerfile.in > Dockerfile
+
+$(DESTDIR):
+	@mkdir -p $@
 
 $(BUILDDIR):
+	@mkdir -p $@
+
+$(OUTPUT): $(BUILDDIR)/$(WHEELDIR) $(DESTDIR)
+	OLD=$$PWD; cd $(TMPDIR); tar czf $${OLD}/$(@) $(PRODNAME)
+
+$(BUILDDIR)/$(WHEELDIR): $(BUILDDIR)
 	@pip wheel --wheel-dir=$@ -r $(REQUIREMENTS)
+	@cp $(REQUIREMENTS) $(BUILDDIR)
+	@cp Makefile.pkg $(BUILDDIR)/Makefile
 
 clean:
-	rm -f pydeps.*.tar.gz
+	rm -f Dockerfile
+	rm -rf $(DESTDIR)
 	rm -rf $(BUILDDIR)
