@@ -1,6 +1,17 @@
 PYTHON   ?= $(shell which python)
 WHEELS   ?= $(PWD)/wheelhouse
 REQS     ?= $(PWD)/requirements.txt
+PIP      ?= $(shell which pip)
 
-install:
+.PHONY: pip distribute install
+
+install: distribute pip
 	@pip install --use-wheel --no-index --find-links=$(WHEELS) -r $(REQS)
+
+pip:
+ifeq "$(PIP)" ""
+	@wget -qO- https://raw.github.com/pypa/pip/master/contrib/get-pip.py | $(PYTHON)
+endif
+
+distribute: pip
+	@pip install distribute
