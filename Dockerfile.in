@@ -5,7 +5,7 @@ RUN yum -y install python-devel python-pip gcc make
 RUN pip install --upgrade pip wheel virtualenv
 
 # Dependencies to build the packages
-RUN yum -y install mysql-devel
+RUN yum -y install mysql-devel openldap-devel libxml2-devel libxslt-devel
 
 RUN groupadd -f -g %GID% build
 RUN useradd -d /home/build -m -s /bin/bash -u %UID% -g %GID% build 
