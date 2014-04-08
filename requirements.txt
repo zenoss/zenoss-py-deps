@@ -1,4 +1,5 @@
 Zope2==2.13.22
+ExtensionClass>=4.1a1
 Twisted==13.2.0
 celery==3.0.15
 eventlet==0.14.0
