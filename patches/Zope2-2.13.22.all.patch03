@@ -1,0 +1,11 @@
+--- App/FindHomes.py.orig	2010-07-31 21:17:24.000000000 -0500
++++ App/FindHomes.py	2011-10-21 12:44:01.359638563 -0500
+@@ -35,7 +35,7 @@ else:
+     __builtin__.ZOPE_HOME = ZOPE_HOME = zhome
+ 
+ try:
+-    chome = os.environ['INSTANCE_HOME']
++    chome = os.environ['INSTANCE_HOME'] if 'INSTANCE_HOME' in os.environ else os.environ['ZENHOME']
+ except KeyError:
+     import Zope2
+     base = os.path.dirname(Zope2.__file__)

@@ -1,0 +1,29 @@
+--- urllib3/connectionpool.py.orig	2014-04-08 22:13:27.243645975 -0500
++++ urllib3/connectionpool.py	2014-04-08 22:13:56.131645195 -0500
+@@ -226,7 +226,7 @@
+         Return a fresh :class:`httplib.HTTPConnection`.
+         """
+         self.num_connections += 1
+-        log.info("Starting new HTTP connection (%d): %s" %
++        log.debug("Starting new HTTP connection (%d): %s" %
+                  (self.num_connections, self.host))
+         return HTTPConnection(host=self.host,
+                               port=self.port,
+@@ -260,7 +260,7 @@
+ 
+         # If this is a persistent connection, check if it got disconnected
+         if conn and is_connection_dropped(conn):
+-            log.info("Resetting dropped connection: %s" % self.host)
++            log.debug("Resetting dropped connection: %s" % self.host)
+             conn.close()
+ 
+         return conn or self._new_conn()
+@@ -523,7 +523,7 @@
+         if redirect_location:
+             if response.status == 303:
+                 method = 'GET'
+-            log.info("Redirecting %s -> %s" % (url, redirect_location))
++            log.debug("Redirecting %s -> %s" % (url, redirect_location))
+             return self.urlopen(method, redirect_location, body, headers,
+                                 retries - 1, redirect, assert_same_host,
+                                 timeout=timeout, pool_timeout=pool_timeout,

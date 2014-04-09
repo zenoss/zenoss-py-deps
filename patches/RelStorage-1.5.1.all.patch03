@@ -1,0 +1,22 @@
+Index: inst/externallibs/RelStorage-1.5.1/relstorage/adapters/schema.py
+===================================================================
+--- relstorage/adapters/schema.py.orig	2012-08-30 15:38:02.474079716 -0500
++++ relstorage/adapters/schema.py	2012-08-30 15:40:05.286083377 -0500
+@@ -127,7 +127,7 @@
+             md5         CHAR(32) CHARACTER SET ascii,
+             state_size  BIGINT NOT NULL,
+             state       LONGBLOB
+-        ) ENGINE = InnoDB;
++        ) ENGINE = InnoDB row_format=COMPRESSED;
+         CREATE INDEX object_state_tid ON object_state (tid);
+         CREATE INDEX object_state_prev_tid ON object_state (prev_tid);
+ 
+@@ -549,7 +549,7 @@
+                         CHECK (tid > 0),
+             state_size  BIGINT NOT NULL,
+             state       LONGBLOB
+-        ) ENGINE = InnoDB;
++        ) ENGINE = InnoDB row_format=COMPRESSED;
+         CREATE INDEX object_state_tid ON object_state (tid);
+ 
+         CREATE TABLE blob_chunk (

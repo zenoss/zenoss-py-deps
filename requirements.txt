@@ -29,7 +29,8 @@ requests==2.2.1
 socketIO-client==0.5.3
 zope.broken==3.6.0
 zope.testrunner==4.0.4
-pyOpenSSL==0.13.1
+zope.untrustedpython==4.0.0
+pyOpenSSL==0.14
 pycrypto>=2.6.0
 python-ldap==2.4.6
 python-memcached>=1.4

@@ -1,0 +1,60 @@
+--- Zope2/utilities/skel/bin/runzope.in.orig	2011-11-05 11:33:11.000000000 -0500
++++ Zope2/utilities/skel/bin/runzope.in	2011-11-05 11:33:45.000000000 -0500
+@@ -1,7 +1,7 @@
+ #! /bin/sh
+ 
+ INSTANCE_HOME="<<INSTANCE_HOME>>"
+-CONFIG_FILE="<<INSTANCE_HOME>>/etc/zope.conf"
++[ -z "$CONFIG_FILE" ] && CONFIG_FILE="<<INSTANCE_HOME>>/etc/zope.conf"
+ ZOPE_RUN="<<ZOPE_SCRIPTS>>/runzope"
+ export INSTANCE_HOME
+ 
+--- Zope2/utilities/skel/bin/zopectl.in.orig	2011-11-05 11:58:01.000000000 -0500
++++ Zope2/utilities/skel/bin/zopectl.in	2011-11-05 11:59:09.000000000 -0500
+@@ -2,7 +2,7 @@
+ 
+ PYTHON="<<PYTHON>>"
+ INSTANCE_HOME="<<INSTANCE_HOME>>"
+-CONFIG_FILE="<<INSTANCE_HOME>>/etc/zope.conf"
++[ -z "$CONFIG_FILE" ] && CONFIG_FILE="<<INSTANCE_HOME>>/etc/zope.conf"
+ ZDCTL="<<ZOPE_SCRIPTS>>/zopectl"
+ export INSTANCE_HOME
+ export PYTHON
+--- OFS/Application.py.orig	2011-12-12 10:21:36.000000000 -0600
++++ OFS/Application.py	2011-12-13 13:39:51.000000000 -0600
+@@ -532,7 +532,7 @@
+             continue
+         done[product_name]=1
+         install_product(app, product_dir, product_name, meta_types,
+-                        folder_permissions, raise_exc=debug_mode)
++                        folder_permissions, raise_exc=False)
+ 
+     # Delayed install of packages-as-products
+     for module, init_func in tuple(get_packages_to_initialize()):
+@@ -636,7 +636,7 @@
+ 
+ 
+ def install_product(app, product_dir, product_name, meta_types,
+-                    folder_permissions, raise_exc=0, log_exc=1):
++                    folder_permissions, raise_exc=0, log_exc=0):
+ 
+     from App.ProductContext import ProductContext
+     path_join=os.path.join
+@@ -694,7 +694,7 @@
+ 
+         except Exception:
+             if log_exc:
+-                LOG.error('Couldn\'t install %s' % product_name,
++                LOG.debug('Couldn\'t install %s' % product_name,
+                            exc_info=sys.exc_info())
+             transaction.abort()
+             if raise_exc:
+@@ -729,7 +729,7 @@
+             transaction.commit()
+     except Exception:
+         if log_exc:
+-            LOG.error("Couldn't install %s" % module.__name__,
++            LOG.debug("Couldn't install %s" % module.__name__,
+                       exc_info=True)
+         transaction.abort()
+         if raise_exc:
