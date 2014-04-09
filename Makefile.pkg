@@ -7,7 +7,7 @@ PIP      ?= $(shell which pip)
 
 install: distribute pip
 	@pip install --use-wheel --no-index --find-links=$(WHEELS) -r $(REQS) wheel
-	@cat patches/* | patch -d /opt/zenoss/lib/python2.7/site-packages -p0
+	@cat patches/* | patch -d $$($(PYTHON) -c "import pip, os.path; print os.path.dirname(pip.__path__[0])") -p0
 
 pip:
 ifeq "$(PIP)" ""
