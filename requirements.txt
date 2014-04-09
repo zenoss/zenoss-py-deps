@@ -110,3 +110,4 @@ ipaddr==2.1.10
 backports.ssl-match-hostname==3.4.0.1
 Yapps==2.1.1
 urllib3==1.7
+metrology==0.10.0
