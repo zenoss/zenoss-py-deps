@@ -1,4 +1,4 @@
-FROM mattdm/fedora:f19
+FROM fedora:20
 MAINTAINER Zenoss <ian@zenoss.com>
 
 RUN yum -y install python-devel python-pip gcc make
