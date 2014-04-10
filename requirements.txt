@@ -47,7 +47,7 @@ five.localsitemanager==2.0.5
 hiredis==0.1.2
 initgroups==2.13.0
 ipaddr==2.1.10
-lxml>=3.2.1
+lxml==3.3.4
 mechanize==0.2.5
 metrology==0.9.0
 networkx==1.7
@@ -55,9 +55,9 @@ poster==0.6.0
 protobuf==2.5.0
 pyOpenSSL==0.14
 pyasn1==0.1.7
-pycrypto>=2.6.0
+pycrypto==2.6.1
 python-ldap==2.4.6
-python-memcached>=1.4
+python-memcached==1.53
 pytz==2013b
 redis==2.7.2
 relstorage==1.5.1
