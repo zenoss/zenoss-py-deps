@@ -1,7 +1,7 @@
 diff --git a/twisted/internet/epollreactor.py b/twisted/internet/epollreactor.py
 index 53418dc..78c96f5 100644
---- a/twisted/internet/epollreactor.py
-+++ b/twisted/internet/epollreactor.py
+--- twisted/internet/epollreactor.py
++++ twisted/internet/epollreactor.py
 @@ -254,7 +254,21 @@ class EPollReactor(posixbase.PosixReactorBase, posixbase._PollLikeMixin):
                  flags |= antievent
                  self._poller.modify(fd, flags)
