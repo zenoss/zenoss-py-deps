@@ -65,6 +65,7 @@ relstorage==1.5.1
 requests==2.2.1
 six==1.4.1
 socketIO-client==0.5.3
+suds==0.4
 supervisor==3.0
 tempstorage==2.12.1
 transaction==1.1.1
