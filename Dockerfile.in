@@ -1,4 +1,4 @@
-FROM fedora:20
+FROM zenoss/rpmbuild:centos7
 MAINTAINER Zenoss <ian@zenoss.com>
 
 RUN yum -y install python-devel python-pip gcc make
