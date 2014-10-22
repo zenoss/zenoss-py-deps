@@ -26,6 +26,7 @@ Products.ZCatalog==2.13.22
 Products.ZSQLMethods==2.13.4
 PyXML==0.8.4
 PyYAML==3.10
+PyMySQL==0.6.2
 Record==2.13.0
 RestrictedPython==3.6.0
 Twisted==13.2.0
