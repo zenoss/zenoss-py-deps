@@ -68,6 +68,7 @@ socketIO-client==0.5.3
 suds==0.4
 supervisor==3.0
 tempstorage==2.12.1
+toposort==1.0
 transaction==1.1.1
 txAMQP==0.6.2
 txredis==2.3
