@@ -40,6 +40,7 @@ atomic==0.6
 backports.ssl-match-hostname==3.4.0.1
 celery==3.0.15
 decorator==3.4.0
+defusedxml==0.4.1
 dm.reuse==1.1
 docutils==0.7
 eventlet==0.14.0
