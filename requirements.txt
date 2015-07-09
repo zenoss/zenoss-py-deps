@@ -128,3 +128,4 @@ zope.testrunner==4.0.4
 zope.traversing==3.13.2
 zope.viewlet==3.7.2
 numpy==1.9.2
+defusedxml==0.4.1
