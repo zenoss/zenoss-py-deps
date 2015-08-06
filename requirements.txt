@@ -63,7 +63,7 @@ python-ldap==2.4.6
 python-memcached>=1.4
 pytz==2012c
 redis==2.7.2
-relstorage==1.5.1
+relstorage==1.5.1.1dev
 requests==2.2.1
 six==1.4.1
 socketIO-client==0.5.3
