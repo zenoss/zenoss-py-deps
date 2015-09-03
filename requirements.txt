@@ -65,7 +65,7 @@ pytz==2012c
 redis==2.7.2
 relstorage==1.5.1.1dev
 requests==2.2.1
-six==1.4.1
+six==1.9.0
 socketIO-client==0.5.3
 suds==0.4
 supervisor==3.0
@@ -129,3 +129,4 @@ zope.traversing==3.13.2
 zope.viewlet==3.7.2
 numpy==1.9.2
 defusedxml==0.4.1
+funcsigs==0.4
