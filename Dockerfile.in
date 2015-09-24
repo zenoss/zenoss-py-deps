@@ -1,4 +1,4 @@
-FROM zenoss/rpmbuild:centos7
+FROM zenoss/rpmbuild:1.0.0
 MAINTAINER Zenoss <ian@zenoss.com>
 
 RUN yum -y install python-devel python-pip gcc make
