@@ -130,3 +130,6 @@ zope.viewlet==3.7.2
 numpy==1.9.2
 defusedxml==0.4.1
 funcsigs==0.4
+Beaker==1.7.0
+collective.beaker==1.0b3
+Products.BeakerSessionDataManager==1.1
