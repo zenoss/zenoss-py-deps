@@ -54,6 +54,7 @@ metrology==0.9.0
 networkx==1.7
 poster==0.6.0
 protobuf==2.5.0
+cryptography==1.0.1
 pyOpenSSL==0.14
 pyasn1==0.1.7
 pycrypto>=2.6.0
