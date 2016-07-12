@@ -1,5 +1,5 @@
 NAME         ?= pydeps
-VERSION      ?= 5.0.0-fc19
+VERSION      ?= 5.2.0-el7-3
 PRODNAME     := $(NAME)-$(VERSION)
 DESTDIR      := dest
 OUTPUT       := $(DESTDIR)/$(PRODNAME).tar.gz
@@ -34,6 +34,7 @@ $(OUTPUT): $(BUILDDIR)/$(WHEELDIR) $(DESTDIR)
 $(BUILDDIR)/$(WHEELDIR): $(BUILDDIR)
 	@pip wheel --wheel-dir=$@ \
 		--extra-index-url http://zenpip.zendev.org/simple/ \
+		--trusted-host zenpip.zendev.org \
 		-r $(REQUIREMENTS) wheel
 	@cp $(REQUIREMENTS) $(BUILDDIR)
 	@cp Makefile.pkg $(BUILDDIR)/Makefile

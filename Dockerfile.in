@@ -1,11 +1,16 @@
-FROM mattdm/fedora:f19
+FROM zenoss/rpmbuild:1.0.0
 MAINTAINER Zenoss <ian@zenoss.com>
 
+#
+# Until we fix our PyPi repo, use 8.1.1 of pip since 8.1.2 and our repo don't work well
+# together for artifacts that contains dots in the name (e.g. zenoss.extjs, or serviced.shell)
+#
 RUN yum -y install python-devel python-pip gcc make
-RUN pip install --upgrade pip wheel virtualenv
+RUN pip install --upgrade pip==8.1.1 wheel virtualenv
 
 # Dependencies to build the packages
-RUN yum -y install mysql-devel openldap-devel libxml2-devel libxslt-devel
+# Install specific version of mariadb-devel per https://mariadb.atlassian.net/browse/MDEV-6862
+RUN yum -y install mariadb-devel-5.5.37 openldap-devel libxml2-devel libxslt-devel mysql-devel
 RUN yum -y install libffi-devel
 
 RUN groupadd -f -g %GID% build
