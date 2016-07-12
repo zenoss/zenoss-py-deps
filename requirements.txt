@@ -1,5 +1,6 @@
 AccessControl==2.13.7
 Acquisition==2.13.8
+ConcurrentLogHandler==0.9.1_z0.1
 DateTime==2.12.7
 DocumentTemplate==2.13.2
 ExtensionClass==2.13.2
@@ -51,6 +52,7 @@ lxml>=3.2.1
 manuel==1.1.1
 mechanize==0.2.5
 metrology==0.9.0
+mock==1.1.0
 networkx==1.7
 poster==0.6.0
 protobuf==2.5.0
@@ -67,6 +69,7 @@ redis==2.7.2
 relstorage==1.5.1.1dev
 requests==2.2.1
 service_identity==16.0.0
+serviced.shell==0.4.1
 six==1.9.0
 socketIO-client==0.5.3
 suds==0.4
