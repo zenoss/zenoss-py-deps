@@ -28,7 +28,7 @@ PyXML==0.8.4
 PyYAML==3.10
 Record==2.13.0
 RestrictedPython==3.6.0
-Twisted==13.2.0
+Twisted==16.1.1
 Yapps==2.1.1
 ZConfig==2.9.1
 ZODB3==3.10.5
@@ -62,6 +62,7 @@ pytz==2013b
 redis==2.7.2
 relstorage==1.5.1
 requests==2.2.1
+service_identity==16.0.0
 socketIO-client==0.5.3
 supervisor==3.0
 tempstorage==2.12.2
