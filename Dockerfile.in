@@ -6,7 +6,7 @@ MAINTAINER Zenoss <ian@zenoss.com>
 # together for artifacts that contains dots in the name (e.g. zenoss.extjs, or serviced.shell)
 #
 RUN yum -y install python-devel python-pip gcc make
-RUN pip install --upgrade pip==8.1.1 wheel virtualenv
+RUN pip install --upgrade pip==9.0.1 wheel virtualenv setuptools
 
 # Dependencies to build the packages
 # Install specific version of mariadb-devel per https://mariadb.atlassian.net/browse/MDEV-6862
