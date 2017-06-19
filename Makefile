@@ -33,8 +33,8 @@ $(OUTPUT): $(BUILDDIR)/$(WHEELDIR) $(DESTDIR)
 
 $(BUILDDIR)/$(WHEELDIR): $(BUILDDIR)
 	@pip wheel --wheel-dir=$@ \
-		--extra-index-url http://zenpip.zendev.org/simple/ \
-		--trusted-host zenpip.zendev.org \
+		--extra-index-url http://zenpip.zenoss.eng/simple/ \
+		--trusted-host zenpip.zenoss.eng \
 		-r $(REQUIREMENTS) wheel
 	@cp $(REQUIREMENTS) $(BUILDDIR)
 	@cp Makefile.pkg $(BUILDDIR)/Makefile
