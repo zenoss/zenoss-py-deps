@@ -1,6 +1,12 @@
 FROM zenoss/rpmbuild:1.0.0
 MAINTAINER Zenoss <ian@zenoss.com>
 
+
+# Enable builds when running with docker overlay fs.
+# Without this, "Rpmdb checksum is invalid" errors occur.
+#  See http://man7.org/linux/man-pages/man1/yum-ovl.1.html
+RUN yum -y install yum-plugin-ovl
+
 #
 # Until we fix our PyPi repo, use 8.1.1 of pip since 8.1.2 and our repo don't work well
 # together for artifacts that contains dots in the name (e.g. zenoss.extjs, or serviced.shell)
