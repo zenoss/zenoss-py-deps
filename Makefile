@@ -1,5 +1,5 @@
 NAME         ?= pydeps
-VERSION      ?= 5.5.0-el7-1
+VERSION      ?= 5.5.1-el7-1
 PRODNAME     := $(NAME)-$(VERSION)
 DESTDIR      := dest
 OUTPUT       := $(DESTDIR)/$(PRODNAME).tar.gz
@@ -31,7 +31,13 @@ $(BUILDDIR):
 $(OUTPUT): $(BUILDDIR)/$(WHEELDIR) $(DESTDIR)
 	OLD=$$PWD; cd $(TMPDIR); tar czf $${OLD}/$(@) $(PRODNAME)
 
+
+# The atomic package requires special attention. The CFFI package needs
+# to installed so that a proper binary wheel can be built for atomic.
+CFFI_REQ := $(shell sed -n '/cffi/p' $(REQUIREMENTS))
+
 $(BUILDDIR)/$(WHEELDIR): $(BUILDDIR)
+	@sudo pip install $(CFFI_REQ)
 	@pip wheel --wheel-dir=$@ \
 		--extra-index-url http://zenpip.zenoss.eng/simple/ \
 		--trusted-host zenpip.zenoss.eng \
