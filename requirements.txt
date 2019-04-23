@@ -95,7 +95,7 @@ PyXML==0.8.4
 PyYAML==3.10
 Record==2.13.0
 redis==2.7.2
-RelStorage==2.0.0.1.dev14
+RelStorage==2.0.0.1.dev15
 requests==2.20.1
 RestrictedPython==3.6.0
 service-identity==16.0.0
