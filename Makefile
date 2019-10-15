@@ -7,6 +7,7 @@ TMPDIR       := /tmp
 WHEELDIR     := wheelhouse
 BUILDDIR     := $(TMPDIR)/$(NAME)-$(VERSION)
 REQUIREMENTS := requirements.txt
+REQUIREMENTS_OPT := requirements_opt.txt
 PKGMAKEFILE  := Makefile.pkg
 
 build: Dockerfile
@@ -43,6 +44,12 @@ $(BUILDDIR)/$(WHEELDIR): $(BUILDDIR)
 		--trusted-host zenpip.zenoss.eng \
 		-r $(REQUIREMENTS) wheel
 	@cp $(REQUIREMENTS) $(BUILDDIR)
+	# Add Optional package requirements
+	@pip wheel --wheel-dir=$@ \
+		--extra-index-url http://zenpip.zenoss.eng/simple/ \
+		--trusted-host zenpip.zenoss.eng \
+		-r $(REQUIREMENTS_OPT) wheel
+	@cp $(REQUIREMENTS_OPT) $(BUILDDIR)
 	@cp Makefile.pkg $(BUILDDIR)/Makefile
 	@cp -r patches $(BUILDDIR)/patches
 
