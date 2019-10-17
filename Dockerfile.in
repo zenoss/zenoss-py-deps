@@ -1,9 +1,6 @@
 FROM zenoss/centos-base:%CENTOS_BASE_TAG%
 MAINTAINER Zenoss <dev@zenoss.com>
 
-FROM zenoss/centos-base:%CENTOS_BASE_TAG%
-MAINTAINER Zenoss <dev@zenoss.com>
-
 RUN yum install epel-release -y \
     && yum -y groupinstall "Development Tools" \
     && yum -y install \
