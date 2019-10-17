@@ -6,8 +6,9 @@ PIP      ?= $(shell which pip)
 .PHONY: pip distribute install
 
 install: distribute pip
-	@pip install --use-wheel --no-index --find-links=$(WHEELS) -r $(REQS) wheel
-	@cat patches/* | patch -d $$($(PYTHON) -c "import pip, os.path; print os.path.dirname(pip.__path__[0])") -p0
+	@pip install --no-index --find-links=$(WHEELS) -r $(REQS) wheel
+	@pip install --no-index --find-links=$(WHEELS) -r $(REQS_OPT) wheel
+	@[ -d patches ] && cat patches/* | patch -d $$($(PYTHON) -c "import pip, os.path; print os.path.dirname(pip.__path__[0])") -p0
 
 pip:
 ifeq "$(PIP)" ""

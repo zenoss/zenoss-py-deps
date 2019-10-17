@@ -36,6 +36,9 @@ $(IMAGEDIR)/Dockerfile: Dockerfile.in
 		-e "s/%CENTOS_BASE_TAG%/$(CENTOS_BASE_TAG)/g" \
 		< $< > $@
 
+$(DESTDIR):
+	@mkdir -p $@
+
 $(DESTDIR) $(CACHE) $(BUILDDIR) $(IMAGEDIR):
 	@mkdir -p $@
 
@@ -81,7 +84,7 @@ $(BUILDDIR)/$(WHEELDIR): $(BUILDDIR)
 		--wheel-dir=$@ \
 		-r $(REQ_OPT) wheel
 	@cp Makefile.pkg $(BUILDDIR)/Makefile
-	@cp -r patches $(BUILDDIR)/patches
+	@-[ -d patches ] && cp -r patches $(BUILDDIR)/patches
 
 
 clean:
