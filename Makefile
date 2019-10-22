@@ -6,7 +6,8 @@ OUTPUT          := $(DESTDIR)/$(PRODNAME).tar.gz
 TMPDIR          := /tmp
 WHEELDIR        := wheelhouse
 BUILDDIR        := $(TMPDIR)/$(NAME)-$(VERSION)
-REQUIREMENTS    := requirements.txt
+REQUIREMENTS_3RD := requirements_3rd.txt
+REQUIREMENTS_ZEN := requirements_zen.txt
 REQUIREMENTS_OPT := requirements_opt.txt
 PKGMAKEFILE     := Makefile.pkg
 CENTOS_BASE_TAG := 1.1.7-java
@@ -42,15 +43,21 @@ $(OUTPUT): $(BUILDDIR)/$(WHEELDIR) $(DESTDIR)
 
 # The atomic package requires special attention. The CFFI package needs
 # to installed so that a proper binary wheel can be built for atomic.
-CFFI_REQ := $(shell sed -n '/cffi/p' $(REQUIREMENTS))
+CFFI_REQ := $(shell sed -n '/cffi/p' $(REQUIREMENTS_3RD))
 
 $(BUILDDIR)/$(WHEELDIR): $(BUILDDIR)
 	@sudo pip install $(CFFI_REQ)
 	@pip wheel --wheel-dir=$@ \
+		-r $(REQUIREMENTS_3RD) wheel
+	@cp $(REQUIREMENTS_3RD) $(BUILDDIR)
+
+	# Add zenoss local packages
+	@pip wheel --wheel-dir=$@ \
 		--extra-index-url http://zenpip.zenoss.eng/simple/ \
 		--trusted-host zenpip.zenoss.eng \
-		-r $(REQUIREMENTS) wheel
-	@cp $(REQUIREMENTS) $(BUILDDIR)
+		-r $(REQUIREMENTS_ZEN) wheel
+	@cp $(REQUIREMENTS_ZEN) $(BUILDDIR)
+
 	# Add Optional package requirements
 	@pip wheel --wheel-dir=$@ \
 		--extra-index-url http://zenpip.zenoss.eng/simple/ \
