@@ -108,7 +108,7 @@ tempstorage==2.12.1
 toposort==1.0
 traceback2==1.4.0
 transaction==2.1.2
-Twisted==16.1.1
+Twisted==19.7.0
 txAMQP==0.6.2
 txredis==2.3
 ujson==1.23
