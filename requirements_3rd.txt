@@ -94,6 +94,7 @@ pytz==2012rc0
 PyYAML==3.10
 Record==2.13.0
 redis==2.7.2
+RelStorage==3.0.1
 requests==2.20.1
 RestrictedPython==3.6.0
 service-identity==16.0.0
@@ -121,9 +122,9 @@ zdaemon==2.0.4
 ZEO==4.3.1
 zExceptions==2.13.0
 zLOG==2.11.1
-ZODB==4.4.5
+ZODB==5.2.0
 ZODB3==3.10.5
-zodbpickle==0.6.0
+zodbpickle==1.1
 Zope2==2.13.13
 zope.annotation==3.5.0
 zope.broken==3.6.0
