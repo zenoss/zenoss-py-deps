@@ -7,7 +7,6 @@ PIP      ?= $(shell which pip)
 
 install: distribute pip
 	@pip install --no-index --find-links=$(WHEELS) -r $(REQS) wheel
-	@pip install --no-index --find-links=$(WHEELS) -r $(REQS_OPT) wheel
 	@[ -d patches ] && cat patches/* | patch -d $$($(PYTHON) -c "import pip, os.path; print os.path.dirname(pip.__path__[0])") -p0
 
 pip:

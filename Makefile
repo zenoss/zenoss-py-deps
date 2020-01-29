@@ -1,5 +1,5 @@
 NAME            ?= pydeps
-VERSION         ?= 5.7.4-el7-1
+VERSION         ?= 6.0.0-el7-1
 PRODNAME        := $(NAME)-$(VERSION)
 DESTDIR         := dest
 OUTPUT          := $(DESTDIR)/$(PRODNAME).tar.gz
@@ -8,14 +8,18 @@ CACHE           := cache
 WHEELDIR        := wheelhouse
 BUILDDIR        := $(TMPDIR)/$(NAME)-$(VERSION)
 REQUIREMENTS    := $(BUILDDIR)/requirements.txt
+MAKEFILE        := $(BUILDDIR)/Makefile
 REQ_3RD         := requirements_3rd.txt
 REQ_ZEN         := requirements_zen.txt
 REQ_OPT         := requirements_opt.txt
-PKGMAKEFILE     := Makefile.pkg
 CENTOS_BASE_TAG := 1.1.7-java
 BUILD_IMAGE     := zenoss/build-wheel
 
-IMAGEDIR = image
+ifneq ($(wildcard ./patches),)
+PATCHES := add_patches
+else
+PATCHES := 
+endif
 
 
 build: $(IMAGEDIR)/Dockerfile $(CACHE)
@@ -36,13 +40,11 @@ $(IMAGEDIR)/Dockerfile: Dockerfile.in
 		-e "s/%CENTOS_BASE_TAG%/$(CENTOS_BASE_TAG)/g" \
 		< $< > $@
 
-$(DESTDIR):
+$(DESTDIR) $(BUILDDIR) $(BUILDDIR)/patches:
 	@mkdir -p $@
 
-$(DESTDIR) $(CACHE) $(BUILDDIR) $(IMAGEDIR):
-	@mkdir -p $@
-
-$(OUTPUT): $(BUILDDIR)/$(WHEELDIR) $(DESTDIR) $(REQUIREMENTS)
+$(OUTPUT): | $(DESTDIR)
+$(OUTPUT): $(BUILDDIR)/$(WHEELDIR) $(MAKEFILE) $(REQUIREMENTS) $(PATCHES)
 	OLD=$$PWD; cd $(TMPDIR); tar czf $${OLD}/$(@) $(PRODNAME)
 
 $(REQUIREMENTS): | $(BUILDDIR)
@@ -54,38 +56,21 @@ $(REQUIREMENTS): $(REQ_3RD) $(REQ_ZEN) $(REQ_OPT)
 # to installed so that a proper binary wheel can be built for atomic.
 CFFI_REQ := $(shell sed -n '/cffi/p' $(REQ_3RD))
 
-$(BUILDDIR)/$(WHEELDIR): $(BUILDDIR)
-	@pip install \
-		--user \
-		--no-color --no-python-version-warning \
-		--cache-dir /mnt/build/$(CACHE) \
-		$(CFFI_REQ)
-	# Add required 3rd party packages
-	@pip wheel \
-		--no-color --no-python-version-warning \
-		--no-deps \
-		--cache-dir /mnt/build/$(CACHE) \
-		--wheel-dir=$@ \
-		-r $(REQ_3RD) wheel
-	# Add zenoss local packages
-	@pip wheel \
-		--no-color --no-python-version-warning \
-		--no-deps \
-		--cache-dir /mnt/build/$(CACHE) \
-		--wheel-dir=$@ \
+$(BUILDDIR)/$(WHEELDIR): $(BUILDDIR) $(REQ_3RD) $(REQ_ZEN) $(REQ_OPT)
+	@sudo pip install $(CFFI_REQ)
+	@pip wheel --wheel-dir=$@ -r $(REQ_3RD) wheel
+	@pip wheel --wheel-dir=$@ \
 		--extra-index-url http://zenpip.zenoss.eng/simple/ \
 		--trusted-host zenpip.zenoss.eng \
 		-r $(REQ_ZEN) wheel
-	# Add Optional package requirements
-	@pip wheel \
-		--no-color --no-python-version-warning \
-		--no-deps \
-		--cache-dir /mnt/build/$(CACHE) \
-		--wheel-dir=$@ \
-		-r $(REQ_OPT) wheel
-	@cp Makefile.pkg $(BUILDDIR)/Makefile
-	@-[ -d patches ] && cp -r patches $(BUILDDIR)/patches
+	@pip wheel --wheel-dir=$@ -r $(REQ_OPT) wheel
 
+$(MAKEFILE): | $(BUILDDIR)
+$(MAKEFILE): Makefile.pkg
+	@cp Makefile.pkg $(BUILDDIR)/Makefile
+
+add_patches: $(BUILDDIR)/patches
+	@cp -r patches $(BUILDDIR)/patches
 
 clean:
 	rm -f Dockerfile

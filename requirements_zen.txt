@@ -4,8 +4,7 @@ PyXML==0.8.4
 # Yapps is maintained on pypi, but v2.1.1 is out of date, and preserved on zenpip
 Yapps==2.1.1
 
-# Zenoss supplied package
+# Zenoss supplied package(s)
 zenpacksupport==1.0
-
-#  Zenoss supplied package
 zope-app-compat==1.0
+servicemigration==1.1.13

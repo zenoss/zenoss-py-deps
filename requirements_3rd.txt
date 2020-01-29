@@ -129,7 +129,6 @@ roman==3.2
 scandir==1.10.0
 semver==2.10.2
 service-identity==18.1.0
-setuptools==44.1.1
 simplegeneric==0.8.1
 six==1.15.0
 snowballstemmer==1.9.1
@@ -162,7 +161,6 @@ Yapps==2.2.0
 zc.lockfile==2.0
 ZConfig==2.9.3
 zdaemon==3.0.5
-zenpacksupport==1.0
 ZEO==4.3.1
 zExceptions==2.13.0
 zLOG==2.12.0
@@ -171,7 +169,6 @@ ZODB==5.5.1
 zodbpickle==2.0.0
 Zope2==2.13.29
 zope.annotation==4.7.0
-zope-app-compat==1.0
 zope.broken==3.6.0
 zope.browser==2.3
 zope.browsermenu==4.4
