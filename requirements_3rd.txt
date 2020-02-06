@@ -17,7 +17,6 @@ backports.shutil-get-terminal-size==1.0.0
 backports.ssl-match-hostname==3.7.0.1
 bcrypt==3.1.7
 Beaker==1.7.0
-beautifulsoup4==4.8.1
 billiard==3.3.0.23
 BTrees==4.6.0
 celery==3.1.26.post2
