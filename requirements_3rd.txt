@@ -1,6 +1,5 @@
 AccessControl==2.13.7
 Acquisition==2.13.12
-Automat==0.8.0
 alabaster==0.7.9
 amqp==1.0.13
 amqplib==1.0.2
@@ -9,6 +8,7 @@ appdirs==1.4.0
 astrolabe==0.4.0
 atomic==0.7.2
 attrs==17.4.0
+Automat==0.8.0
 Babel==2.3.4
 backports.ssl-match-hostname==3.4.0.1
 bcrypt==3.1.7
@@ -20,8 +20,8 @@ certifi==2018.1.18
 cffi==1.11.5
 chardet==3.0.4
 collective.beaker==1.0b3
-constantly==15.1
 ConcurrentLogHandler==0.9.1
+constantly==15.1
 cryptography==2.5
 DateTime==2.12.7
 decorator==3.4.0
@@ -127,8 +127,8 @@ zdaemon==2.0.4
 ZEO==4.3.1
 zExceptions==2.13.0
 zLOG==2.11.1
-ZODB==4.4.5
 ZODB3==3.10.5
+ZODB==4.4.5
 zodbpickle==0.6.0
 Zope2==2.13.13
 zope.annotation==3.5.0
