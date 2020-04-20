@@ -1,9 +1,6 @@
 # PyXML is deprecated, but preserved on the zenpip server
 PyXML==0.8.4
 
-# RelStorage is maintained on pypi, but v2.0.0.1.dev15 is out of date, and preserved on zenpip
-RelStorage==2.0.0.1.dev15
-
 # Yapps is maintained on pypi, but v2.1.1 is out of date, and preserved on zenpip
 Yapps==2.1.1
 
