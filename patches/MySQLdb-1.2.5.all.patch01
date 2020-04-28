@@ -1,0 +1,11 @@
+--- MySQLdb/cursors.py	2020-04-28 04:43:35.083886719 +0000
++++ MySQLdb/cursors.py	2020-04-28 04:44:07.566841100 +0000
+@@ -314,7 +314,7 @@
+     
+     def _do_query(self, q):
+         db = self._get_db()
+-        self._last_executed = q
++        self._executed = q
+         db.query(q)
+         self._do_get_result()
+         return self.rowcount
