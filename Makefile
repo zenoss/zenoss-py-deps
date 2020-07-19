@@ -1,18 +1,21 @@
-NAME            ?= pydeps
-VERSION         ?= 5.6.5-el7-1
-PRODNAME        := $(NAME)-$(VERSION)
-DESTDIR         := dest
-OUTPUT          := $(DESTDIR)/$(PRODNAME).tar.gz
-TMPDIR          := /tmp
-WHEELDIR        := wheelhouse
-BUILDDIR        := $(TMPDIR)/$(NAME)-$(VERSION)
-REQUIREMENTS    := $(BUILDDIR)/requirements.txt
-REQ_3RD         := requirements_3rd.txt
-REQ_ZEN         := requirements_zen.txt
-REQ_OPT         := requirements_opt.txt
-PKGMAKEFILE     := Makefile.pkg
-CENTOS_BASE_TAG := 1.1.7-java
-BUILD_IMAGE     := zenoss/build-wheel
+include versions.mk
+
+NAME          = pydeps
+RELEASE       = 1
+PLATFORM      = el7
+PRODUCT       = $(NAME)-$(VERSION)-$(PLATFORM)-$(RELEASE)
+DESTDIR       = dest
+OUTPUT        = $(DESTDIR)/$(PRODUCT).tar.gz
+TMPDIR        = /tmp
+WHEELDIR      = wheelhouse
+BUILDDIR      = $(TMPDIR)/$(NAME)-$(VERSION)
+REQUIREMENTS  = $(BUILDDIR)/requirements.txt
+REQ_3RD       = requirements_3rd.txt
+REQ_ZEN       = requirements_zen.txt
+REQ_OPT       = requirements_opt.txt
+PKGMAKEFILE   = Makefile.pkg
+BUILD_IMAGE   = zenoss/build-wheel
+BASEIMAGE_TAG = $(CENTOS_BASE_VERSION)-java
 
 
 build: Dockerfile
@@ -22,15 +25,15 @@ build: Dockerfile
 		-w /mnt/build         \
 		-e NAME=$(NAME)       \
 		-e VERSION=$(VERSION) \
-		zenoss/build-wheel    \
+		$(BUILD_IMAGE)        \
 		make $(OUTPUT)
 
 Dockerfile: Dockerfile.in
 	@sed \
 		-e "s/%UID%/$$(id -u)/g" \
 		-e "s/%GID%/$$(id -g)/g" \
-		-e "s/%CENTOS_BASE_TAG%/$(CENTOS_BASE_TAG)/g" \
-		< Dockerfile.in > Dockerfile
+		-e "s/%TAG%/$(BASEIMAGE_TAG)/g" \
+		< $< > $@
 
 $(DESTDIR):
 	@mkdir -p $@
@@ -39,7 +42,7 @@ $(BUILDDIR):
 	@mkdir -p $@
 
 $(OUTPUT): $(BUILDDIR)/$(WHEELDIR) $(DESTDIR) $(REQUIREMENTS)
-	OLD=$$PWD; cd $(TMPDIR); tar czf $${OLD}/$(@) $(PRODNAME)
+	OLD=$$PWD; cd $(TMPDIR); tar czf $${OLD}/$(@) $(PRODUCT)
 
 $(REQUIREMENTS): | $(BUILDDIR)
 $(REQUIREMENTS): $(REQ_3RD) $(REQ_ZEN) $(REQ_OPT)
