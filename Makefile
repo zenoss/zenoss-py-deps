@@ -4,6 +4,7 @@ PRODNAME        := $(NAME)-$(VERSION)
 DESTDIR         := dest
 OUTPUT          := $(DESTDIR)/$(PRODNAME).tar.gz
 TMPDIR          := /tmp
+CACHE           := cache
 WHEELDIR        := wheelhouse
 BUILDDIR        := $(TMPDIR)/$(NAME)-$(VERSION)
 REQUIREMENTS    := $(BUILDDIR)/requirements.txt
@@ -15,7 +16,7 @@ CENTOS_BASE_TAG := 1.1.7-java
 BUILD_IMAGE     := zenoss/build-wheel
 
 
-build: Dockerfile
+build: Dockerfile $(CACHE)
 	docker build -t $(BUILD_IMAGE) .
 	docker run --rm           \
 		-v $${PWD}:/mnt/build \
@@ -32,10 +33,7 @@ Dockerfile: Dockerfile.in
 		-e "s/%CENTOS_BASE_TAG%/$(CENTOS_BASE_TAG)/g" \
 		< Dockerfile.in > Dockerfile
 
-$(DESTDIR):
-	@mkdir -p $@
-
-$(BUILDDIR):
+$(DESTDIR) $(CACHE) $(BUILDDIR):
 	@mkdir -p $@
 
 $(OUTPUT): $(BUILDDIR)/$(WHEELDIR) $(DESTDIR) $(REQUIREMENTS)
@@ -51,17 +49,28 @@ $(REQUIREMENTS): $(REQ_3RD) $(REQ_ZEN) $(REQ_OPT)
 CFFI_REQ := $(shell sed -n '/cffi/p' $(REQ_3RD))
 
 $(BUILDDIR)/$(WHEELDIR): $(BUILDDIR)
-	@sudo pip install $(CFFI_REQ)
-	@pip wheel --wheel-dir=$@ -r $(REQ_3RD) wheel
-
+	@sudo pip install \
+		--cache-dir /mnt/build/$(CACHE) \
+		$(CFFI_REQ)
+	# Add required 3rd party packages
+	@pip wheel \
+		--no-deps \
+		--cache-dir /mnt/build/$(CACHE) \
+		--wheel-dir=$@ \
+		-r $(REQ_3RD) wheel
 	# Add zenoss local packages
-	@pip wheel --wheel-dir=$@ \
+	@pip wheel \
+		--no-deps \
+		--cache-dir /mnt/build/$(CACHE) \
+		--wheel-dir=$@ \
 		--extra-index-url http://zenpip.zenoss.eng/simple/ \
 		--trusted-host zenpip.zenoss.eng \
 		-r $(REQ_ZEN) wheel
-
 	# Add Optional package requirements
-	@pip wheel --wheel-dir=$@ \
+	@pip wheel \
+		--no-deps \
+		--cache-dir /mnt/build/$(CACHE) \
+		--wheel-dir=$@ \
 		-r $(REQ_OPT) wheel
 	@cp Makefile.pkg $(BUILDDIR)/Makefile
 	@cp -r patches $(BUILDDIR)/patches
@@ -71,3 +80,4 @@ clean:
 	rm -f Dockerfile
 	rm -rf $(DESTDIR)
 	rm -rf $(BUILDDIR)
+	rm -rf $(CACHE)
