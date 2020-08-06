@@ -15,9 +15,11 @@ PKGMAKEFILE     := Makefile.pkg
 CENTOS_BASE_TAG := 1.1.7-java
 BUILD_IMAGE     := zenoss/build-wheel
 
+IMAGEDIR = image
 
-build: Dockerfile $(CACHE)
-	docker build -t $(BUILD_IMAGE) .
+
+build: $(IMAGEDIR)/Dockerfile $(CACHE)
+	docker build -t $(BUILD_IMAGE) $(IMAGEDIR)
 	docker run --rm           \
 		-v $${PWD}:/mnt/build \
 		-w /mnt/build         \
@@ -26,14 +28,15 @@ build: Dockerfile $(CACHE)
 		zenoss/build-wheel    \
 		make $(OUTPUT)
 
-Dockerfile: Dockerfile.in
+$(IMAGEDIR)/Dockerfile: | $(IMAGEDIR)
+$(IMAGEDIR)/Dockerfile: Dockerfile.in
 	@sed \
 		-e "s/%UID%/$$(id -u)/g" \
 		-e "s/%GID%/$$(id -g)/g" \
 		-e "s/%CENTOS_BASE_TAG%/$(CENTOS_BASE_TAG)/g" \
-		< Dockerfile.in > Dockerfile
+		< $< > $@
 
-$(DESTDIR) $(CACHE) $(BUILDDIR):
+$(DESTDIR) $(CACHE) $(BUILDDIR) $(IMAGEDIR):
 	@mkdir -p $@
 
 $(OUTPUT): $(BUILDDIR)/$(WHEELDIR) $(DESTDIR) $(REQUIREMENTS)
@@ -78,6 +81,4 @@ $(BUILDDIR)/$(WHEELDIR): $(BUILDDIR)
 
 clean:
 	rm -f Dockerfile
-	rm -rf $(DESTDIR)
-	rm -rf $(BUILDDIR)
-	rm -rf $(CACHE)
+	rm -rf $(DESTDIR) $(BUILDDIR) $(CACHE) $(IMAGEDIR)
