@@ -18,7 +18,7 @@ bcrypt==3.1.7
 Beaker==1.7.0
 billiard==2.7.3.34
 BTrees==4.4.1
-celery==3.0.15
+celery==3.0.25
 certifi==2018.1.18
 cffi==1.14.1
 chardet==3.0.4
@@ -31,13 +31,12 @@ decorator==4.4.2
 defusedxml==0.4.1
 dm.reuse==1.1
 DocumentTemplate==2.13.2
-docutils==0.7
+docutils==0.16
 enum34==1.1.6
 eventlet==0.14.0
 ExtensionClass==2.13.2
 five.localsitemanager==2.0.5
 funcsigs==0.4
-future==0.18.2
 ganglia==0.3.0
 greenlet==0.4.10
 hiredis==0.1.2
