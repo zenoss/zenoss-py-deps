@@ -52,17 +52,21 @@ $(REQUIREMENTS): $(REQ_3RD) $(REQ_ZEN) $(REQ_OPT)
 CFFI_REQ := $(shell sed -n '/cffi/p' $(REQ_3RD))
 
 $(BUILDDIR)/$(WHEELDIR): $(BUILDDIR)
-	@sudo pip install \
+	@pip install \
+		--user \
+		--no-color --no-python-version-warning \
 		--cache-dir /mnt/build/$(CACHE) \
 		$(CFFI_REQ)
 	# Add required 3rd party packages
 	@pip wheel \
+		--no-color --no-python-version-warning \
 		--no-deps \
 		--cache-dir /mnt/build/$(CACHE) \
 		--wheel-dir=$@ \
 		-r $(REQ_3RD) wheel
 	# Add zenoss local packages
 	@pip wheel \
+		--no-color --no-python-version-warning \
 		--no-deps \
 		--cache-dir /mnt/build/$(CACHE) \
 		--wheel-dir=$@ \
@@ -71,6 +75,7 @@ $(BUILDDIR)/$(WHEELDIR): $(BUILDDIR)
 		-r $(REQ_ZEN) wheel
 	# Add Optional package requirements
 	@pip wheel \
+		--no-color --no-python-version-warning \
 		--no-deps \
 		--cache-dir /mnt/build/$(CACHE) \
 		--wheel-dir=$@ \
