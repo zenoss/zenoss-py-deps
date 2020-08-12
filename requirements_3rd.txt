@@ -123,7 +123,7 @@ simplegeneric==0.8.1
 six==1.14.0
 snowballstemmer==1.2.1
 socketIO-client==0.5.3
-solrcloudpy==2.4.1
+solrcloudpy==4.0.1
 Sphinx==1.4.5
 suds==0.4
 supervisor==3.4.0
