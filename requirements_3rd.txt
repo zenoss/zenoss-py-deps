@@ -25,7 +25,7 @@ chardet==3.0.4
 collective.beaker==1.0b3
 ConcurrentLogHandler==0.9.1
 constantly==15.1
-cryptography==2.9.2
+cryptography==3.2
 DateTime==2.12.7
 decorator==4.4.2
 defusedxml==0.4.1
