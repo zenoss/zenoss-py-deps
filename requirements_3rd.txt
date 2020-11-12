@@ -25,7 +25,7 @@ chardet==3.0.4
 collective.beaker==1.0b3
 ConcurrentLogHandler==0.9.1
 constantly==15.1
-cryptography==2.9.2
+cryptography==3.2
 DateTime==2.12.7
 decorator==4.4.2
 defusedxml==0.4.1
@@ -138,7 +138,7 @@ txAMQP==0.6.2
 txredis==2.4
 ujson==1.23
 unittest2==1.1.0
-urllib3==1.24
+urllib3==1.24.2
 wcwidth==0.2.5
 websocket-client==0.37.0
 zc.lockfile==1.0.0
