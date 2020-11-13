@@ -149,7 +149,7 @@ zLOG==2.11.1
 ZODB3==3.10.7
 ZODB==5.5.1
 zodbpickle==2.0.0
-Zope2==2.13.13
+Zope2==2.13.19
 zope.annotation==3.5.0
 zope.broken==3.6.0
 zope.browser==1.3
