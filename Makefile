@@ -1,5 +1,5 @@
 NAME            ?= pydeps
-VERSION         ?= 5.7.2-el7-1
+VERSION         ?= 5.7.3-el7-1
 PRODNAME        := $(NAME)-$(VERSION)
 DESTDIR         := dest
 OUTPUT          := $(DESTDIR)/$(PRODNAME).tar.gz
