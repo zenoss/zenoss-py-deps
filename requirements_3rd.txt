@@ -52,12 +52,12 @@ ipaddr==2.1.10
 ipaddress==1.0.23
 ipython==5.10.0
 ipython_genutils==0.2.0
-Jinja2==2.8
+Jinja2==2.11.2
 kombu==3.0.37
 linecache2==1.0.0
 lxml==3.6.0
 manuel==1.1.1
-MarkupSafe==0.23
+MarkupSafe==1.1.1
 mechanize==0.2.5
 meld3==1.0.2
 metrology==1.2.4
