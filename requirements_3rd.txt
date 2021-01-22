@@ -55,7 +55,7 @@ ipython_genutils==0.2.0
 Jinja2==2.11.2
 kombu==3.0.37
 linecache2==1.0.0
-lxml==3.6.0
+lxml==4.6.2
 manuel==1.1.1
 MarkupSafe==1.1.1
 mechanize==0.2.5
