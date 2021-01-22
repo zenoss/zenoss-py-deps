@@ -1,5 +1,5 @@
 NAME            ?= pydeps
-VERSION         ?= 5.7.4-el7-1
+VERSION         ?= $(shell cat VERSION)-el7-1
 PRODNAME        := $(NAME)-$(VERSION)
 DESTDIR         := dest
 OUTPUT          := $(DESTDIR)/$(PRODNAME).tar.gz
@@ -12,7 +12,7 @@ REQ_3RD         := requirements_3rd.txt
 REQ_ZEN         := requirements_zen.txt
 REQ_OPT         := requirements_opt.txt
 PKGMAKEFILE     := Makefile.pkg
-CENTOS_BASE_TAG := 1.1.7-java
+CENTOS_BASE_TAG := 1.1.8-java
 BUILD_IMAGE     := zenoss/build-wheel
 
 IMAGEDIR = image
@@ -25,7 +25,7 @@ build: $(IMAGEDIR)/Dockerfile $(CACHE)
 		-w /mnt/build         \
 		-e NAME=$(NAME)       \
 		-e VERSION=$(VERSION) \
-		zenoss/build-wheel    \
+		$(BUILD_IMAGE)        \
 		make $(OUTPUT)
 
 $(IMAGEDIR)/Dockerfile: | $(IMAGEDIR)
