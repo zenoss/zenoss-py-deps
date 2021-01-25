@@ -11,7 +11,7 @@ install: distribute pip
 
 pip:
 ifeq "$(PIP)" ""
-	@wget -qO- https://raw.github.com/pypa/pip/master/contrib/get-pip.py | $(PYTHON)
+	@wget -qO- https://bootstrap.pypa.io/2.7/get-pip.py | $(PYTHON)
 endif
 
 distribute: pip
