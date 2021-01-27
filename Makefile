@@ -2,7 +2,7 @@ NAME            ?= pydeps
 VERSION         ?= $(shell cat VERSION)-el7-1
 PRODNAME        := $(NAME)-$(VERSION)
 DESTDIR         := dest
-OUTPUT          := $(DESTDIR)/$(PRODNAME).tar.gz
+ARTIFACT        := $(DESTDIR)/$(PRODNAME).tar.gz
 TMPDIR          := /tmp
 CACHE           := cache
 WHEELDIR        := wheelhouse
@@ -11,22 +11,26 @@ REQUIREMENTS    := $(BUILDDIR)/requirements.txt
 REQ_3RD         := requirements_3rd.txt
 REQ_ZEN         := requirements_zen.txt
 REQ_OPT         := requirements_opt.txt
-PKGMAKEFILE     := Makefile.pkg
 CENTOS_BASE_TAG := 1.1.8-java
 BUILD_IMAGE     := zenoss/build-wheel
 
 IMAGEDIR = image
 
+.PHONY: build build-image
 
-build: $(IMAGEDIR)/Dockerfile $(CACHE)
-	docker build -t $(BUILD_IMAGE) $(IMAGEDIR)
+build: build-image $(CACHE)
 	docker run --rm           \
 		-v $${PWD}:/mnt/build \
 		-w /mnt/build         \
 		-e NAME=$(NAME)       \
 		-e VERSION=$(VERSION) \
 		$(BUILD_IMAGE)        \
-		make $(OUTPUT)
+		make $(ARTIFACT)
+
+build-image: $(IMAGEDIR)/Dockerfile
+	docker build -t $(BUILD_IMAGE) $(IMAGEDIR)
+
+artifact: $(ARTIFACT)
 
 $(IMAGEDIR)/Dockerfile: | $(IMAGEDIR)
 $(IMAGEDIR)/Dockerfile: Dockerfile.in
@@ -39,7 +43,7 @@ $(IMAGEDIR)/Dockerfile: Dockerfile.in
 $(DESTDIR) $(CACHE) $(BUILDDIR) $(IMAGEDIR):
 	@mkdir -p $@
 
-$(OUTPUT): $(BUILDDIR)/$(WHEELDIR) $(DESTDIR) $(REQUIREMENTS)
+$(ARTIFACT): $(BUILDDIR)/$(WHEELDIR) $(BUILDDIR)/install.sh $(BUILDDIR)/patches $(DESTDIR) $(REQUIREMENTS)
 	OLD=$$PWD; cd $(TMPDIR); tar czf $${OLD}/$(@) $(PRODNAME)
 
 $(REQUIREMENTS): | $(BUILDDIR)
@@ -80,9 +84,12 @@ $(BUILDDIR)/$(WHEELDIR): $(BUILDDIR)
 		--cache-dir /mnt/build/$(CACHE) \
 		--wheel-dir=$@ \
 		-r $(REQ_OPT) wheel
-	@cp Makefile.pkg $(BUILDDIR)/Makefile
-	@cp -r patches $(BUILDDIR)/patches
 
+$(BUILDDIR)/install.sh: install.sh
+	@cp $^ $@
+
+$(BUILDDIR)/patches: patches
+	@cp -r $^ $@
 
 clean:
 	rm -f Dockerfile
