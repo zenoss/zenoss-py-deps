@@ -32,8 +32,8 @@ RUN yum install epel-release -y \
 
 RUN sed -i 's/requiretty/!requiretty/' /etc/sudoers
 
-# setuptools >= 45 is Python3 only.
-RUN pip install --upgrade pip wheel virtualenv "setuptools<45"
+# setuptools >= 45 and pip>=21 are Python3 only.
+RUN pip install --upgrade "pip<21" wheel "virtualenv<20" "setuptools<45"
 
 RUN groupadd -f -g %GID% build
 RUN useradd -d /home/build -m -s /bin/bash -u %UID% -g %GID% build
