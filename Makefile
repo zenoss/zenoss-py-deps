@@ -11,8 +11,10 @@ REQUIREMENTS    := $(BUILDDIR)/requirements.txt
 REQ_3RD         := requirements_3rd.txt
 REQ_ZEN         := requirements_zen.txt
 REQ_OPT         := requirements_opt.txt
-CENTOS_BASE_TAG := 1.1.8-java
+CENTOS_BASE_TAG := 1.1.9-java
 BUILD_IMAGE     := zenoss/build-wheel
+
+unittest2_pkg = unittest2-1.1.0-py2.py3-none-any.whl
 
 IMAGEDIR = image
 
@@ -38,18 +40,20 @@ $(IMAGEDIR)/Dockerfile: Dockerfile.in
 		-e "s/%UID%/$$(id -u)/g" \
 		-e "s/%GID%/$$(id -g)/g" \
 		-e "s/%CENTOS_BASE_TAG%/$(CENTOS_BASE_TAG)/g" \
+		-e "s/%PACKAGES%/$(shell cat image-packages.txt | tr '\n' ' ')/g" \
 		< $< > $@
 
 $(DESTDIR) $(CACHE) $(BUILDDIR) $(IMAGEDIR):
 	@mkdir -p $@
 
-$(ARTIFACT): $(BUILDDIR)/$(WHEELDIR) $(BUILDDIR)/install.sh $(BUILDDIR)/patches $(DESTDIR) $(REQUIREMENTS)
+$(ARTIFACT): $(BUILDDIR)/$(WHEELDIR) $(BUILDDIR)/$(WHEELDIR)/$(unittest2_pkg) $(BUILDDIR)/install.sh $(BUILDDIR)/patches $(DESTDIR) $(REQUIREMENTS)
 	OLD=$$PWD; cd $(TMPDIR); tar czf $${OLD}/$(@) $(PRODNAME)
 
 $(REQUIREMENTS): | $(BUILDDIR)
 $(REQUIREMENTS): $(REQ_3RD) $(REQ_ZEN) $(REQ_OPT)
 	@cat $^ > $@
 	@sed -e "/^[\s]*$$/d" -e "/^#/d" -i $@
+	@echo "unittest2==1.1.0" >> $@
 
 # The atomic package requires special attention. The CFFI package needs
 # to installed so that a proper binary wheel can be built for atomic.
@@ -91,6 +95,20 @@ $(BUILDDIR)/install.sh: install.sh
 $(BUILDDIR)/patches: patches
 	@cp -r $^ $@
 
+
+# unittest2==1.1.0 incorrectly declares argparse as a dependency for Python >2.6.
+# This has been fixed, but unreleased, in unittest2's source code.
+# So, these targets pull down the source code and build an updated unittest2==1.1.0 that correctly
+# skips the argparse dependency on Python versions >= 2.7.
+
+unittest2:
+	@hg clone https://hg.python.org/unittest2
+
+$(BUILDDIR)/$(WHEELDIR)/$(unittest2_pkg): unittest2
+	@pip install --no-color --no-python-version-warning --user traceback2
+	@cd unittest2; hg update -r 541; sed -i -e "s/version=VERSION/version=str(VERSION)/" setup.py; python setup.py bdist_wheel
+	@cp unittest2/dist/$(unittest2_pkg) $@
+
 clean:
 	rm -f Dockerfile
-	rm -rf $(DESTDIR) $(BUILDDIR) $(CACHE) $(IMAGEDIR)
+	rm -rf $(DESTDIR) $(BUILDDIR) $(CACHE) $(IMAGEDIR) unittest2
