@@ -3,30 +3,7 @@ MAINTAINER Zenoss <dev@zenoss.com>
 
 RUN yum install epel-release -y \
     && yum -y groupinstall "Development Tools" \
-    && yum -y install \
-       dmidecode \
-       libffi-devel \
-       libsmi \
-       libxml2-devel \
-       libxslt-devel \
-       mariadb-devel \
-       maven \
-       mysql-devel \
-       net-snmp-libs \
-       openldap-devel \
-       openssl-devel \
-       patch \
-       pcre-devel \
-       python-devel \
-       python-pip \
-       rsync \
-       sudo \
-       sysstat \
-       tar \
-       unzip \
-       wget \
-       which \
-       yum-plugin-ovl \
+    && yum -y install %PACKAGES% \
     && yum erase epel-release -y \
     && /sbin/scrub.sh
 
