@@ -51,7 +51,7 @@ ipaddr==2.1.10
 ipaddress==1.0.23
 ipython==5.10.0
 ipython_genutils==0.2.0
-Jinja2==2.11.2
+Jinja2==2.11.3
 kombu==3.0.37
 linecache2==1.0.0
 lxml==4.6.2
