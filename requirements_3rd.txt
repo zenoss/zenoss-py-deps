@@ -99,7 +99,7 @@ pyasn1==0.4.8
 pyasn1-modules==0.2.8
 pycparser==2.20
 pycrypto==2.6.1
-pygments==2.5.2
+pygments==2.7.4
 pyhamcrest==1.10.1
 PyJWT==1.5.3
 PyMySQL==0.6.3
