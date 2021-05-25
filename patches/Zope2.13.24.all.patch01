@@ -1,0 +1,22 @@
+--- Zope2/utilities/skel/bin/runzope.in.orig	2011-11-05 11:33:11.000000000 -0500
++++ Zope2/utilities/skel/bin/runzope.in	2011-11-05 11:33:45.000000000 -0500
+@@ -1,7 +1,7 @@
+ #! /bin/sh
+ 
+ INSTANCE_HOME="<<INSTANCE_HOME>>"
+-CONFIG_FILE="<<INSTANCE_HOME>>/etc/zope.conf"
++[ -z "$CONFIG_FILE" ] && CONFIG_FILE="<<INSTANCE_HOME>>/etc/zope.conf"
+ ZOPE_RUN="<<ZOPE_SCRIPTS>>/runzope"
+ export INSTANCE_HOME
+ 
+--- Zope2/utilities/skel/bin/zopectl.in.orig	2011-11-05 11:58:01.000000000 -0500
++++ Zope2/utilities/skel/bin/zopectl.in	2011-11-05 11:59:09.000000000 -0500
+@@ -2,7 +2,7 @@
+ 
+ PYTHON="<<PYTHON>>"
+ INSTANCE_HOME="<<INSTANCE_HOME>>"
+-CONFIG_FILE="<<INSTANCE_HOME>>/etc/zope.conf"
++[ -z "$CONFIG_FILE" ] && CONFIG_FILE="<<INSTANCE_HOME>>/etc/zope.conf"
+ ZDCTL="<<ZOPE_SCRIPTS>>/zopectl"
+ export INSTANCE_HOME
+ export PYTHON
